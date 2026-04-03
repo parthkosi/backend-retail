@@ -10,6 +10,6 @@ namespace RetailAPI.DTOs
     public class ChangeRoleDto
     {
         public int UserId { get; set; }
-        public string NewRole { get; set; }
+        public required string NewRole { get; set; }
     }
 }

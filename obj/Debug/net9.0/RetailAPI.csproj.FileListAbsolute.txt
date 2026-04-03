@@ -165,3 +165,4 @@ C:\Users\User 1\Desktop\RetailAPI\obj\Debug\net9.0\refint\RetailAPI.dll
 C:\Users\User 1\Desktop\RetailAPI\obj\Debug\net9.0\RetailAPI.pdb
 C:\Users\User 1\Desktop\RetailAPI\obj\Debug\net9.0\RetailAPI.genruntimeconfig.cache
 C:\Users\User 1\Desktop\RetailAPI\obj\Debug\net9.0\ref\RetailAPI.dll
+C:\Users\User 1\Desktop\RetailAPI\obj\Debug\net9.0\RetailAPI.sourcelink.json

@@ -66,29 +66,57 @@ namespace RetailAPI.Controllers
                 .AsNoTracking()
                 .Select(s => new
                 {
-                    s.Id,
+                    id = s.Id,
 
-                    s.ItemName,
-                    s.ItemCode,
-                    s.HsnNumber,
+                    itemName = s.ItemName,
+                    itemCode = s.ItemCode,
+                    hsnNumber = s.HsnNumber,
 
-                    Batch = s.Batch,
+                    batch = s.Batch,
 
-                    s.Quantity,
-                    s.Mrp,
-                    s.CostPrice,
-                    s.SalePrice,
+                    quantity = s.Quantity,
+                    mrp = s.Mrp,
+                    costPrice = s.CostPrice,
+                    salePrice = s.SalePrice,
 
-                    StockValue = s.Quantity * s.CostPrice,
+                    stockValue = s.Quantity * s.CostPrice,
 
-                    CreatedFromPrItemId = s.CreatedFromPrItemId,
-                    CreatedAt = s.CreatedAt
+                    createdFromPrItemId = s.CreatedFromPrItemId,
+                    createdAt = s.CreatedAt,
+
+                    arrivedDate = s.CreatedAt
                 })
-                .OrderByDescending(s => s.Batch)
-                .ThenBy(s => s.ItemName)
+                .OrderByDescending(s => s.batch)
+                .ThenBy(s => s.itemName)
                 .ToListAsync();
 
             return Ok(stockReport);
         }
+
+        // REPORT 3: STOCK SUMMARY (ITEM WISE)
+        // =====================================================
+        [HttpGet("stock-summary")]
+        public async Task<IActionResult> GetStockSummary()
+        {
+            var summary = await _context.Stocks
+                .AsNoTracking()
+                .GroupBy(s => new { s.ItemName, s.HsnNumber })
+                .Select(g => new
+                {
+                    itemName = g.Key.ItemName,
+                    hsnNumber = g.Key.HsnNumber,
+
+                    totalQuantity = g.Sum(x => x.Quantity),
+
+                    totalCostValue = g.Sum(x => x.Quantity * x.CostPrice),
+
+                    batchCount = g.Count()
+                })
+                .OrderBy(x => x.itemName)
+                .ToListAsync();
+
+            return Ok(summary);
+        }
+
     }
 }
